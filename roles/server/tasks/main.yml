@@ -3,5 +3,33 @@
   yum:
     name: nfs-utils
     state: present
-
+- name: Enable firewalld
+  service:
+    name: firewalld
+    state: started
+    enabled: yes
+- name: Allow nfs3 rpc-bind mountd
+  command: firewall-cmd --permanent --add-service=nfs3 --add-service=rpc-bind --add-service=mountd
+- name: Reload firewalld
+  command: firewall-cmd --reload
+- name: Enable nfs
+  service:
+    name: nfs
+    state: started
+    enabled: yes
+- name: Make directory for export
+  file:
+    path: "/srv/share/upload"
+    state: directory
+- name: chown user nfsnobody
+  shell: "chown -R nfsnobody:nfsnobody /srv/share"
+- name: Set permissions for directory
+  shell: "/usr/bin/find /srv/share/upload/ -type d -exec chmod 777 {} \\;"
+- name: Insert structure into file exports
+  shell: |
+    cat <<EOF > /etc/exports
+    /srv/share 192.168.50.11/32(rw,sync,root_squash)
+    EOF
+- name: Export directory
+  shell: "exportfs -r"
 ...
