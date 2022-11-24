@@ -9,4 +9,4 @@ I. Создание стенда
 При старте обоих ВМ для установки необходимого ПО и настройки ВМ используется ansible.
 Структура каталога проекта:
 
-![Вывод команды tree](https://github.com/DmitryV81/HW5v2_nfs/blob/main/ansible.JPG)
+![Вывод команды tree](https://github.com/DmitryV81/HW5_nfs_v2/blob/main/ansible.JPG)
